@@ -1,10 +1,30 @@
 import './App.css';
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const urlCode = new URLSearchParams(window.location.search).get("code");
+    console.log(urlCode);
+    if(urlCode && localStorage.getItem("github_access_token") === null){
+      const getAccessToken =  async () => {
+        const response = await fetch('/api/github-fetch-token?code=' + urlCode , {
+          method: 'GET'
+        })
+        const data = await response.json()
+        console.log(data)
+        setLoginData(data);
+        localStorage.setItem('loginData', JSON.stringify(data))
+      }
+      getAccessToken()
+    }
+  }, [])
 
+  const storedLoginData = localStorage.getItem('loginData');
+  const initialLoginData = storedLoginData !== null && storedLoginData !== 'undefined' ? JSON.parse(storedLoginData) : null;
+  const [loginData, setLoginData] = useState(initialLoginData);
+  
   gapi.load("client:auth2", () => {
     gapi.auth2.init({
       clientId:
@@ -13,9 +33,10 @@ function App() {
     });
   });
 
-  const [loginData, setLoginData] = useState(localStorage.getItem('loginData') ?
-  JSON.parse(localStorage.getItem('loginData')) : null)
-  
+  const loginGithub = () => {
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + process.env.REACT_APP_GITHUB_CLIENT_ID)
+  }
+
   const handleFailure = (result) => {
     console.log(result)
   }
@@ -39,6 +60,9 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem('loginData')
+    let stateObj = { id: "100" };
+            window.history.pushState(stateObj,
+                "Page 2", "/");
     setLoginData(null);
   }
 
@@ -49,16 +73,19 @@ function App() {
           {
             loginData ? (
               <div>
-                <h3>You logged in as {loginData.email}</h3>
+                <h3>You logged in as {loginData.name}</h3>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             ) : (
-              <GoogleLogin clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              buttonText="Login With Google"
-              onFailure={handleFailure}
-              onSuccess={handleSuccess}
-              cookiePolicy={'single_host_origin'} >
-              </GoogleLogin>
+              <div>
+                <GoogleLogin clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Login With Google"
+                onFailure={handleFailure}
+                onSuccess={handleSuccess}
+                cookiePolicy={'single_host_origin'} >
+                </GoogleLogin>
+                <button onClick={loginGithub}>Login With Github</button>
+              </div>
             )
           }
         </div>

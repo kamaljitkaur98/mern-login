@@ -33,6 +33,33 @@ app.post('/api/google-login', async(req,res) => {
     res.json({name, email, picture});
 })
 
+app.get('/api/github-fetch-token', async(req,res) => {
+    const params = "?client_id=" + process.env.REACT_APP_GITHUB_CLIENT_ID + "&client_secret=" + process.env.REACT_APP_GITHUB_CLIENT_SECRET + "&code=" + req.query.code;
+    const data = await fetch('https://github.com/login/oauth/access_token' + params, {
+            method: 'POST',
+            headers: {
+                  'Accept': 'application/json'
+            }
+      }).then((response) => response.json());
+      
+      const accessToken = data.access_token;
+
+      // Fetch the user's GitHub profile
+      const userProfile = await fetch('https://api.github.com/user', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }).then((response) => response.json());
+
+      // Handle the user profile data (e.g., store it in your database and log the user in)
+      const values = {name: userProfile.name, email: userProfile.email, picture: userProfile.avatar_url}
+      insertIntoDB(users, values)
+      console.log(values)
+      res.status(201);
+      res.json(values);
+})
+
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running at http:localhost:${process.env.PORT || 5000}`);
 });
