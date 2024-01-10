@@ -1,0 +1,126 @@
+.inner_container, .sub-container{
+    width: 100%;
+}
+
+.sub-container{
+    height: 60px;
+    padding: 1% 15%;
+}
+
+.sub-container img{
+    width: 20px;
+    margin-right: 10px;
+}
+
+.sub-container span {
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+.sub-container button{
+    padding: 5% 20%;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 2px; 
+}
+
+.left-hand-side {
+    width: 50%;
+    height: 100vh;
+    float: left;
+    background-color: white;
+    padding: 1% 5%;
+}
+
+.btn {
+    width: 100%;
+    background-color: #065AD9;
+}
+.right-hand-side {
+    width: 50%;
+    height: 100vh;
+    float: right;
+    background-color: blue
+}
+
+.create-account-anchor{
+    color: #065AD9 !important;
+}
+
+.forgot-password-anchor{
+    color: #065AD9 !important;
+    margin-right: auto;
+    float: right;
+}
+
+.closing-words {
+    text-align: center;
+}
+
+.logo-image{
+    width: 50px;
+    height: 50px;
+    margin-top: 20%;
+}
+
+.horizontal-line {
+    width: 100%; 
+    height: 20px; 
+    border-bottom: 1px solid gray; 
+    text-align: center
+}
+
+.horizontal-line span {
+    font-size: 10px; 
+    background-color: white;
+    margin-top: 20px;
+    padding: 10px;
+    position: relative;
+    bottom: -5px;
+}
+
+.inner-text {
+    color: gray;
+    font-size: 12px;
+}
+
+.google-login{
+    width: 50%;
+    float: left;
+}
+
+.github-login{
+    width: 50%;
+    float: right;
+}
+
+.carousel-indicators{
+    bottom: -40%;
+}
+
+.carousel-indicators li {
+    background-color: white !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    margin-left: 3vw;
+}
+
+.carousel-indicators .active{
+    background-color: #30B9DB !important;
+}
+
+#carouselExampleIndicators{
+    margin-top: 25%;
+    margin-left: 10%;
+    margin-right: 10%;
+
+}
+
+.carousel-item img{
+    height: 50vh;
+}
+
+.carousel-caption{
+    bottom: -40px;
+}
