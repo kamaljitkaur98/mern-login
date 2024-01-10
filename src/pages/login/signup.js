@@ -5,6 +5,7 @@ import './signup.css';
 import logo from './logo.png'
 import GoogleLogo from './googlelogo.png'
 import GithubLogo from './githublogo.png'
+import { Link } from 'react-router-dom';
 
 function SignUp() {
   useEffect(() => {
@@ -108,7 +109,7 @@ function SignUp() {
                       <div className="form-group form-check">
                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                         <label className="form-check-label" for="exampleCheck1">Remember me</label>
-                        <a className='forgot-password-anchor'>Forgot Password ?</a>
+                        <Link className='forgot-password-anchor' to='/forgot-password'>Forgot Password ?</Link>
                       </div>
                       <button type="submit" className="btn btn-primary">Log In</button>
                     </form>
